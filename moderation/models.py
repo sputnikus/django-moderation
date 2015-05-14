@@ -39,8 +39,7 @@ class ModeratedObject(models.Model):
     content_object = generic.GenericForeignKey(ct_field="content_type",
                                                fk_field="object_pk")
     date_created = models.DateTimeField(auto_now_add=True, editable=False)
-    date_updated = models.DateTimeField(auto_now=True,
-                                        default=datetime.datetime.now)
+    date_updated = models.DateTimeField(auto_now=True)
     moderation_state = models.SmallIntegerField(choices=MODERATION_STATES,
                                                 default=MODERATION_DRAFT_STATE,
                                                 editable=False)
@@ -49,8 +48,8 @@ class ModeratedObject(models.Model):
         default=MODERATION_STATUS_PENDING,
         editable=False)
     moderated_by = models.ForeignKey(
-        getattr(settings, 'AUTH_USER_MODEL', 'auth.User'), 
-        blank=True, null=True, editable=False, 
+        getattr(settings, 'AUTH_USER_MODEL', 'auth.User'),
+        blank=True, null=True, editable=False,
         related_name='moderated_by_set')
     moderation_date = models.DateTimeField(editable=False, blank=True,
                                            null=True)
@@ -58,8 +57,8 @@ class ModeratedObject(models.Model):
     changed_object = SerializedObjectField(serialize_format='json',
                                            editable=False)
     changed_by = models.ForeignKey(
-        getattr(settings, 'AUTH_USER_MODEL', 'auth.User'), 
-        blank=True, null=True, editable=True, 
+        getattr(settings, 'AUTH_USER_MODEL', 'auth.User'),
+        blank=True, null=True, editable=True,
         related_name='changed_by_set')
 
     objects = ModeratedObjectManager()
